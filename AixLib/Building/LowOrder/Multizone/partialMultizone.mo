@@ -7,9 +7,8 @@ protected
     "Choose setup for zones" annotation (choicesAllMatching=false);
   parameter Integer orientations[:]=zoneParam.n "Number cardinal directions";
 public
-  replaceable AixLib.Building.LowOrder.ThermalZone.ThermalZoneEquipped zone[buildingParam.numZones](
-      zoneParam=zoneParam) constrainedby
-    AixLib.Building.LowOrder.ThermalZone.partialThermalZone
+  replaceable AixLib.Building.LowOrder.ThermalZone.ThermalZoneEquipped zone[buildingParam.numZones] constrainedby
+    AixLib.Building.LowOrder.ThermalZone.partialThermalZone(zoneParam=zoneParam)
     "Choose thermal zone model"                                                         annotation (Placement(transformation(extent={{40,35},
             {80,75}})),choicesAllMatching=true);
   AixLib.Utilities.Interfaces.SolarRad_in radIn[max(orientations)]
