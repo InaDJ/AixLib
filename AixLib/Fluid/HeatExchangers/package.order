@@ -1,6 +1,7 @@
 Boiler
 ConstantEffectiveness
 HeatPump
+HeatPump_EBC
 HeaterCooler_T
 HeaterCooler_u
 SolarThermal
