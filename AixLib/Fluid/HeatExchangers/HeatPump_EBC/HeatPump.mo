@@ -1,8 +1,5 @@
 within AixLib.Fluid.HeatExchangers.HeatPump_EBC;
 model HeatPump
-  import SI = Modelica.SIunits;
-  import HVAC;
-  import DataBase;
   parameter Boolean HP_ctrl_type =  true "Capacity control type"
     annotation(Dialog(group = "Heat Pump cycle", compact = true, descriptionLabel = true), choices(choice=true
         "On/off heat pump",choice = false "Speed controlled heat pump",
@@ -27,17 +24,17 @@ model HeatPump
     "Pressure loss: Coefficient for quadratic term" annotation ( Dialog(tab="Evaporator, Condenser",group="Evaporator"));
   parameter Real linPresLoss_Ev=0 "Pressure loss: Coefficient for linear term" annotation ( Dialog(tab="Evaporator, Condenser",group="Evaporator"));
 
-  parameter SI.Volume volume_Ev=0.004
+  parameter Modelica.SIunits.Volume volume_Ev=0.004
     "External medium volume in heat exchanger"                                   annotation ( Dialog(tab="Evaporator, Condenser",group="Evaporator"));
  // parameter Integer n_Ev=3 "External discretisation of heat exchanger" annotation ( Dialog(tab="Evaporator, Condenser",group="Evaporator"));
- parameter SI.Volume volume_Co=0.004 "External medium volume in heat exchanger"
-                                                                                annotation ( Dialog(tab="Evaporator, Condenser",group="Condenser"));
+ parameter Modelica.SIunits.Volume volume_Co=0.004
+    "External medium volume in heat exchanger"                                  annotation ( Dialog(tab="Evaporator, Condenser",group="Condenser"));
  // parameter Integer n_Co=3 "External discretisation of heat exchanger" annotation ( Dialog(tab="Evaporator, Condenser",group="Condenser"));
-  parameter DataBase.HeatPump.HeatPumpBaseDataDefinition data_table=
-      DataBase.HeatPump.EN255.Vitocal350BWH110()
+  parameter AixLib.DataBase.HeatPump.HeatPumpBaseDataDefinition data_table=
+      AixLib.DataBase.HeatPump.EN255.Vitocal350BWH110()
     "Look-up table data for on/off heat pump according to EN255" annotation (
-      choicesAllMatching=true, Dialog(enable=HP_ctrl_type and (Cap_calc_type
-           == 2), group="Capacity data"));
+      choicesAllMatching=true, Dialog(enable=HP_ctrl_type and (Cap_calc_type ==
+          2), group="Capacity data"));
 /*  parameter HeatPumpSystem.HeatPump.TableData.HeatPumpBaseDataDefinition        data_table_EN14511=
        HeatPumpSystem.HeatPump.TableData.EN14511.StiebelEltron_WPL18() 
     "Look-up table data for on/off heat pump according to EN14511"  annotation(choicesAllMatching=true,Dialog(enable=HP_ctrl_type and (Cap_calc_type==2),group="Capacity data"));*/
@@ -46,20 +43,22 @@ protected
   final parameter Real table_Pel[:,:]= data_table.table_Pel;
 public
   replaceable function data_poly =
-  HVAC.Components.HeatGenerators.HeatPump.Characteristics.Danfoss_HRH029U2_hpc
+  AixLib.Fluid.HeatExchangers.HeatPump_EBC.Characteristics.Danfoss_HRH029U2_hpc
     constrainedby
-    HVAC.Components.HeatGenerators.HeatPump.Characteristics.baseFct
+    AixLib.Fluid.HeatExchangers.HeatPump_EBC.Characteristics.baseFct
     "Polynomial heat pump characteristics for inverter heat pump"
    annotation(choicesAllMatching = true,Dialog(enable=(Cap_calc_type==1),group="Capacity data"));
 
-  parameter SI.Temperature T_start_Ev=273.15 "initial evaporator temperature"
+  parameter Modelica.SIunits.Temperature T_start_Ev=273.15
+    "initial evaporator temperature"
    annotation (Evaluate=true, Dialog(tab="Evaporator, Condenser", group="Initialization", enable=initEvaporatorVol));
-  parameter SI.Temperature T_start_Co=308.15 "initial condenser temperature"
+  parameter Modelica.SIunits.Temperature T_start_Co=308.15
+    "initial condenser temperature"
   annotation (Evaluate=true, Dialog(tab="Evaporator, Condenser", group="Initialization", enable=initCondenserVol));
   replaceable function Corr_icing =
-  HVAC.Components.HeatGenerators.HeatPump.Corrections.Defrost.noModel
+  AixLib.Fluid.HeatExchangers.HeatPump_EBC.Corrections.Defrost.noModel
     constrainedby
-    HVAC.Components.HeatGenerators.HeatPump.Corrections.Defrost.baseFct
+    AixLib.Fluid.HeatExchangers.HeatPump_EBC.Corrections.Defrost.baseFct
     "Frost/Defrost model (only air-to-water heat pumps)"
    annotation(choicesAllMatching = true,Dialog(enable=(Cap_calc_type==1),group="Defrosting/Icing correction",tab="Advanced"));
 
@@ -79,30 +78,31 @@ public
   parameter Boolean CoP_output=false "CoP"
   annotation (Dialog(group="Optional outputs",tab="Advanced", descriptionLabel = true), choices(checkBox=true));
   parameter Boolean PT1_cycle=false "First Order model for capacity" annotation(Dialog(group = "Start/stop behavior",tab="Advanced"), choices(checkBox=true));
-  parameter SI.Time T_hp_cycle=1 "Time constant for first order model" annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=PT1_cycle));
+  parameter Modelica.SIunits.Time T_hp_cycle=1
+    "Time constant for first order model"                                            annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=PT1_cycle));
   /*parameter Boolean Pel_trapezoid=false "rising and falling of elctric power" annotation(Dialog(group = "Start/stop behavior",tab="Advanced"), choices(checkBox=true));
-  parameter SI.Time rising=0 "start-up of electric power"   annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=Pel_trapezoid));
-  parameter SI.Time falling=0 "shut-off of electric power"   annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=Pel_trapezoid));*/
+  parameter Modelica.SIunits.Time rising=0 "start-up of electric power"   annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=Pel_trapezoid));
+  parameter Modelica.SIunits.Time falling=0 "shut-off of electric power"   annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=Pel_trapezoid));*/
   parameter Real eta_el=1
     "assumption of P_tech/P_el (for calculation of Evaporator load)"                         annotation(Dialog(group="Assumptions",tab="Advanced"));
   parameter Real factor_scale=1
     "scaling factor (Attention: not physically correct)"
      annotation(Dialog(group="Assumptions",tab="Advanced"));
-  parameter SI.Power Pel_add=0
+  parameter Modelica.SIunits.Power Pel_add=0
     "additional electric power when heat pump is on (not influenced through scaling factor)"
      annotation(Dialog(group="Assumptions",tab="Advanced"));
 
   parameter Boolean CorrFlowCo=false
     "Correction of mass flow different from nominal flow in condenser"
     annotation(Dialog(group="Mass flow correction",tab="Advanced"), choices(checkBox=true));
-  parameter SI.MassFlowRate mFlow_Co_nominal=0.5
+  parameter Modelica.SIunits.MassFlowRate mFlow_Co_nominal=0.5
     "Nominal mass flow rate in condenser, only for polynomials, as already included in data tables"
                                                                                                     annotation(Dialog(group="Mass flow correction",tab="Advanced",enable=(CorrFlowCo and Cap_calc_type==1)));
 
   parameter Boolean CorrFlowEv=false
     "Correction of mass flow different from nominal flow in evaporator"
     annotation(Dialog(group="Mass flow correction",tab="Advanced"), choices(checkBox=true));
-  parameter SI.MassFlowRate mFlow_Ev_nominal=0.5
+  parameter Modelica.SIunits.MassFlowRate mFlow_Ev_nominal=0.5
     "Nominal mass flow rate in evaporator, only for polynomials, as already included in data tables"
                                                                                                      annotation(Dialog(group="Mass flow correction",tab="Advanced",enable=(CorrFlowEv and Cap_calc_type==1)));
 
@@ -199,7 +199,8 @@ public
                                                                                               (Cap_calc_type==1)));
 
   parameter Boolean delay_Qdot_Co=false "Delay model for capacity" annotation(Dialog(group = "Start/stop behavior",tab="Advanced"), choices(checkBox=true));
-  parameter SI.Time delayTime=0 "Delay time of capacity to electric power" annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=delay_Qdot_Co));
+  parameter Modelica.SIunits.Time delayTime=0
+    "Delay time of capacity to electric power"                                           annotation(Dialog(group = "Start/stop behavior",tab="Advanced", enable=delay_Qdot_Co));
   Modelica.Fluid.Sensors.MassFlowRate m_flow_Ev(redeclare package Medium =
         Medium_Ev) annotation (Placement(transformation(
         origin={-130,52},
@@ -239,7 +240,7 @@ public
 
 parameter Boolean HeatLossesCo=false
     "Consider heat losses of condenser to ambient"  annotation(Dialog(group="Heat losses of condenser",tab="Advanced"), choices(checkBox=true));
-parameter SI.ThermalConductance R_loss=1
+parameter Modelica.SIunits.ThermalConductance R_loss=1
     "Thermal conductance of heat loss to ambient"                                      annotation(Dialog(group = "Heat losses of condenser",tab="Advanced", enable=HeatLossesCo));
 protected
   Modelica.Blocks.Interfaces.RealInput N_in_internal
@@ -261,7 +262,7 @@ public
         origin={50,90})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature varTemp
     annotation (Placement(transformation(extent={{80,76},{100,96}})));
-  parameter SI.Temperature T_Co_max=338.15
+  parameter Modelica.SIunits.Temperature T_Co_max=338.15
     "Maximum condenser outlet temperature";
   Modelica.Blocks.Math.Gain negative(k=-1) annotation (Placement(
         transformation(

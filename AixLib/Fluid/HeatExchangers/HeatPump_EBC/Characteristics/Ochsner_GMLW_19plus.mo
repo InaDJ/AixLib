@@ -1,8 +1,7 @@
 within AixLib.Fluid.HeatExchangers.HeatPump_EBC.Characteristics;
 function Ochsner_GMLW_19plus
   "Ochsner GMLW 19plus, defrost included, no dependency on speed"
-  import HVAC;
-  extends HVAC.Components.HeatGenerators.HeatPump.Characteristics.baseFct(
+  extends AixLib.Fluid.HeatExchangers.HeatPump_EBC.Characteristics.baseFct(
     N,
     T_co,
     T_ev);

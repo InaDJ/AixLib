@@ -1,8 +1,7 @@
 within AixLib.Fluid.HeatExchangers.HeatPump_EBC.Characteristics;
 function Danfoss_HRH029U2_hpc
   "Danfoss Compressor HRH029U2, heat pump cycle as described in Huchtemann, Clima2013"
-  import HVAC;
-  extends HVAC.Components.HeatGenerators.HeatPump.Characteristics.baseFct(
+  extends AixLib.Fluid.HeatExchangers.HeatPump_EBC.Characteristics.baseFct(
     N,
     T_co,
     T_ev);

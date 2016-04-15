@@ -1,8 +1,7 @@
 within AixLib.Fluid.HeatExchangers.HeatPump_EBC.Corrections.Defrost;
 function WetterAfjei1996
   "Correction of CoP (Icing, Defrost) according to Wetter,Afjei 1996"
-  import HVAC;
-  extends HVAC.Components.HeatGenerators.HeatPump.Corrections.Defrost.baseFct(
+  extends AixLib.Fluid.HeatExchangers.HeatPump_EBC.Corrections.Defrost.baseFct(
       T_ev);
 
 parameter Real A=0.03;

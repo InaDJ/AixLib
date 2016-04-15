@@ -1,7 +1,6 @@
 within AixLib.Fluid.HeatExchangers.HeatPump_EBC.Corrections.Defrost;
 function noModel "No model"
-  import HVAC;
-  extends HVAC.Components.HeatGenerators.HeatPump.Corrections.Defrost.baseFct(
+  extends AixLib.Fluid.HeatExchangers.HeatPump_EBC.Corrections.Defrost.baseFct(
       T_ev);
 
 algorithm

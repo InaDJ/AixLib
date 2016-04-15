@@ -1,6 +1,5 @@
 within AixLib.Fluid.HeatExchangers.HeatPump_EBC.Partial;
 model HeatExchangerHP
-  import SI = Modelica.SIunits;
  outer Modelica.Fluid.System system;
   //extends Modelica_Fluid.Interfaces.PartialInitializationParameters;
    // Initialization
@@ -31,17 +30,17 @@ model HeatExchangerHP
        quantity=Medium.extraPropertiesNames)=fill(0, Medium.nC)
     "Start value of trace substances"
    annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
-  parameter SI.MassFlowRate m_flow_start=0.5 annotation (Dialog(tab="Initialization"));
+  parameter Modelica.SIunits.MassFlowRate m_flow_start=0.5 annotation (Dialog(tab="Initialization"));
   /*Medium.BaseProperties medium(
     preferredMediumStates=true,
     p(start=p_start),
     h(start=h_start),
     T(start=T_start),
     Xi(start=X_start[1:Medium.nXi]));
-  SI.Energy U "Internal energy of fluid";
-  SI.Mass m "Mass of fluid";
-  SI.Mass[Medium.nXi] mXi "Masses of independent components in the fluid";
-  SI.Mass[Medium.nC] mC "Masses of trace substances in the fluid";
+  Modelica.SIunits.Energy U "Internal energy of fluid";
+  Modelica.SIunits.Mass m "Mass of fluid";
+  Modelica.SIunits.Mass[Medium.nXi] mXi "Masses of independent components in the fluid";
+  Modelica.SIunits.Mass[Medium.nC] mC "Masses of trace substances in the fluid";
   // C need to be added here because unlike for Xi, which has medium.Xi,
   // there is no variable medium.C
   Medium.ExtraProperty C[Medium.nC] "Trace substance mixture content";*/
@@ -69,10 +68,11 @@ model HeatExchangerHP
     "Fluid inlet port" annotation (extent=[-110,-10; -90,10]);
   parameter Real a=0 "Pressure loss: Coefficient for quadratic term";
   parameter Real b=0 "Pressure loss: Coefficient for linear term";
-  parameter SI.Volume volume=0.004 "External medium volume in heat exchanger";
+  parameter Modelica.SIunits.Volume volume=0.004
+    "External medium volume in heat exchanger";
  // parameter Integer nNodes=3 "External discretisation of heat exchanger";
-  //parameter SI.Diameter diameter "Diameter of circular pipe";
-  //parameter SI.Length length "Length";
+  //parameter Modelica.SIunits.Diameter diameter "Diameter of circular pipe";
+  //parameter Modelica.SIunits.Length length "Length";
   Modelica.Fluid.Vessels.ClosedVolume volume1(
     redeclare package Medium = Medium,
     T_start(displayUnit="K") = T_start,
