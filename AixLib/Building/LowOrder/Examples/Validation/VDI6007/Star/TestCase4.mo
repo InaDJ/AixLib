@@ -78,7 +78,7 @@ equation
 <p>A script to run this test case can be found in AixLib\\Resources\\Scripts\\Dymola\\Building\\LowOrder\\Examples\\Validation\\Star.</p>
 </html>"),             experiment(StopTime = 5.184e+006, Interval = 3600),
              __Dymola_Commands(file=
-                               "modelica://AixLib/Resources/Scripts/Dymola/Building/LowOrder/Examples/Validation/Star/TestCase4.mos"
+                               "modelica://AixLib/Resources/Scripts/Dymola/Building/LowOrder/Examples/Validation/VDI6007/Star/TestCase4.mos"
         "Simulate and plot"),
              __Dymola_experimentSetupOutput(events = false));
 end TestCase4;

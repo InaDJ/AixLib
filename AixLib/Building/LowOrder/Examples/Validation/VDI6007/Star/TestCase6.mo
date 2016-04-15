@@ -52,7 +52,7 @@ equation
       color={0,0,127}));
   annotation (             experiment(StopTime = 5.184e+006, Interval = 3600, __Dymola_Algorithm = "Lsodar"),
               __Dymola_Commands(file=
-                               "modelica://AixLib/Resources/Scripts/Dymola/Building/LowOrder/Examples/Validation/Star/TestCase6.mos"
+                               "modelica://AixLib/Resources/Scripts/Dymola/Building/LowOrder/Examples/Validation/VDI6007/Star/TestCase6.mos"
         "Simulate and plot"),
               __Dymola_experimentSetupOutput(events = false),
               Documentation(revisions="<html>
